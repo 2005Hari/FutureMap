@@ -7,25 +7,25 @@
 @layer base {
   :root {
     /* Core Colors */
-    --color-background: #FAFBFC; /* gray-50 */
-    --color-foreground: #1F2937; /* gray-800 */
-    --color-border: #E5E7EB; /* gray-200 */
+    --color-background: #D6EBEE; /* Ice Blue */
+    --color-foreground: #001B48; /* Deep Navy */
+    --color-border: #97CADB; /* Soft Sky Blue */
     --color-input: #FFFFFF; /* white */
-    --color-ring: #2563EB; /* blue-600 */
+    --color-ring: #018ABE; /* Bright Cyan Blue */
     
     /* Card Colors */
     --color-card: #FFFFFF; /* white */
-    --color-card-foreground: #1F2937; /* gray-800 */
+    --color-card-foreground: #001B48; /* Deep Navy */
     --color-popover: #FFFFFF; /* white */
-    --color-popover-foreground: #1F2937; /* gray-800 */
+    --color-popover-foreground: #001B48; /* Deep Navy */
     
     /* Muted Colors */
-    --color-muted: #F3F4F6; /* gray-100 */
-    --color-muted-foreground: #6B7280; /* gray-500 */
+    --color-muted: #D6EBEE; /* Ice Blue */
+    --color-muted-foreground: #02457A; /* Dark Blue */
     
     /* Primary Colors */
-    --color-primary: #2563EB; /* blue-600 */
-    --color-primary-foreground: #FFFFFF; /* white */
+    --color-primary: #02457A; /* Dark Blue */
+    --color-primary-foreground: #D6EBEE; /* Ice Blue */
     
     /* Secondary Colors */
     --color-secondary: #059669; /* emerald-600 */

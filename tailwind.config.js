@@ -7,18 +7,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        border: 'var(--color-border)', // gray-200
-        input: 'var(--color-input)', // white
-        ring: 'var(--color-ring)', // blue-600
-        background: 'var(--color-background)', // gray-50
-        foreground: 'var(--color-foreground)', // gray-800
+        deepNavy: '#001B48',
+        darkBlue: '#02457A',
+        brightCyan: '#018ABE',
+        softSky: '#97CADB',
+        iceBlue: '#D6EBEE',
+        border: 'var(--color-border)',
+        input: 'var(--color-input)',
+        ring: '#018ABE',
+        background: '#D6EBEE',
+        foreground: '#001B48',
         primary: {
-          DEFAULT: 'var(--color-primary)', // blue-600
-          foreground: 'var(--color-primary-foreground)', // white
+          DEFAULT: '#02457A',
+          foreground: '#D6EBEE',
         },
         secondary: {
-          DEFAULT: 'var(--color-secondary)', // emerald-600
-          foreground: 'var(--color-secondary-foreground)', // white
+          DEFAULT: '#018ABE',
+          foreground: '#D6EBEE',
         },
         destructive: {
           DEFAULT: 'var(--color-destructive)', // red-500
