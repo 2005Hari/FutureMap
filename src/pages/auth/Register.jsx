@@ -34,7 +34,7 @@ export default function Register() {
         email: email,
         photo: '',
       }, { merge: true });
-      window.location.href = "/";
+      window.location.href = "/aptitude-quiz-interface";
     } catch (err) {
       setError("Registration failed. " + (err.message || ''));
     }

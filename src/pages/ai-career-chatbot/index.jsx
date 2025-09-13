@@ -229,14 +229,14 @@ const AiCareerChatbot = () => {
         <div className="w-full px-8 py-6">
           <Breadcrumb />
           
-          <div className="max-w-6xl mx-auto">
+          <div className="">
             <div className="bg-card rounded-lg border border-border card-shadow overflow-hidden">
               <ChatHeader 
                 onClearChat={handleClearChat}
                 messageCount={messages?.length}
               />
               
-              <div className="flex h-[calc(100vh-200px)]">
+              <div className="flex h-[calc(100vh-160px)]">
                 {/* Main Chat Area */}
                 <div className="flex-1 flex flex-col">
                   <div className="flex-1 overflow-y-auto p-6">
@@ -275,7 +275,7 @@ const AiCareerChatbot = () => {
                 </div>
                 
                 {/* Sidebar - Quick Actions */}
-                <div className="w-80 border-l border-border bg-muted/20 p-6 overflow-y-auto hidden lg:block">
+                <div className="w-1/3 border-l border-border bg-muted/20 p-6 overflow-y-auto hidden lg:block">
                   <QuickActions onQuickAction={handleQuickAction} />
                 </div>
               </div>

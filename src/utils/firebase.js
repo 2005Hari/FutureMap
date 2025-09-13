@@ -6,13 +6,13 @@ import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 // Real Firebase config from user
 const firebaseConfig = {
-  apiKey: "AIzaSyBOAEU6Hq2o3z8eXGCnBwFhzK5HBwuSZ0",
-  authDomain: "futuremap-b92d5.firebaseapp.com",
-  projectId: "futuremap-b92d5",
-  storageBucket: "futuremap-b92d5.appspot.com",
-  messagingSenderId: "965224181982",
-  appId: "1:965224181982:web:239c8592ca200580899524f",
-  measurementId: "G-NCMQSZT4PB"
+  apiKey: "AIzaSyAvUAIUODlDKg97eOWPIurrwMaVEjOolxE",
+  authDomain: "futuremap-298f6.firebaseapp.com",
+  projectId: "futuremap-298f6",
+  storageBucket: "futuremap-298f6.firebasestorage.app",
+  messagingSenderId: "9237721514",
+  appId: "1:9237721514:web:f128b76e4e47314be13bd3",
+  measurementId: "G-T5DPCQ22K2"
 };
 
 const app = initializeApp(firebaseConfig);

@@ -63,14 +63,14 @@ const ConversationStarters = ({ onStarterClick, className = "" }) => {
           Choose a topic below or ask me anything about your career journey
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {starterCategories?.map((category, categoryIndex) => (
           <div
             key={categoryIndex}
-            className="bg-card border border-border rounded-lg p-6 card-shadow"
+            className="group bg-card border border-border rounded-lg p-6 card-shadow transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1"
           >
             <div className="flex items-center space-x-3 mb-4">
-              <div className={`flex items-center justify-center w-10 h-10 rounded-lg ${category?.bgColor}`}>
+              <div className={`flex items-center justify-center w-10 h-10 rounded-lg ${category?.bgColor} transition-transform duration-300 group-hover:scale-110`}>
                 <Icon 
                   name={category?.icon} 
                   size={20} 
@@ -85,9 +85,10 @@ const ConversationStarters = ({ onStarterClick, className = "" }) => {
                 <button
                   key={starterIndex}
                   onClick={() => onStarterClick(starter)}
-                  className="w-full text-left p-3 bg-muted/50 hover:bg-muted text-foreground rounded-lg text-sm transition-colors duration-150 hover-scale"
+                  className="w-full text-left p-3 bg-muted/50 hover:bg-muted text-foreground rounded-lg text-sm transition-colors duration-150 group flex items-center justify-between"
                 >
-                  {starter}
+                  <span>{starter}</span>
+                  <Icon name="ChevronRight" className="opacity-0 group-hover:opacity-100 transition-opacity duration-200" size={16} />
                 </button>
               ))}
             </div>

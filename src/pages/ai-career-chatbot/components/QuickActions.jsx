@@ -63,16 +63,20 @@ const QuickActions = ({ onQuickAction, className = "" }) => {
             <button
               key={action?.id}
               onClick={action?.action}
-              className="flex items-center space-x-3 p-4 bg-card border border-border rounded-lg hover:border-primary/20 transition-all duration-200 hover-scale text-left"
+              className="h-full flex flex-col justify-between p-4 bg-card border border-border rounded-lg hover:border-primary/20 transition-all duration-200 hover-scale text-left"
             >
-              <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg flex-shrink-0">
-                <Icon name={action?.icon} size={20} color="var(--color-primary)" />
+              <div className="flex items-start space-x-3">
+                <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-lg flex-shrink-0">
+                  <Icon name={action?.icon} size={20} color="var(--color-primary)" />
+                </div>
+                <div className="flex-1 min-w-0 overflow-hidden">
+                  <h4 className="font-medium text-foreground break-words">{action?.title}</h4>
+                  <p className="text-sm text-muted-foreground break-words">{action?.description}</p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-foreground">{action?.title}</h4>
-                <p className="text-sm text-muted-foreground">{action?.description}</p>
+              <div className="flex justify-end w-full">
+                  <Icon name="ChevronRight" size={16} color="var(--color-muted-foreground)" />
               </div>
-              <Icon name="ChevronRight" size={16} color="var(--color-muted-foreground)" />
             </button>
           ))}
         </div>
@@ -90,9 +94,14 @@ const QuickActions = ({ onQuickAction, className = "" }) => {
               onClick={() => onQuickAction(question)}
               className="w-full text-left p-3 bg-muted/50 hover:bg-muted text-foreground rounded-lg text-sm transition-colors duration-150 hover-scale"
             >
-              <div className="flex items-center space-x-2">
-                <Icon name="HelpCircle" size={16} color="var(--color-muted-foreground)" />
-                <span>{question}</span>
+              <div className="flex items-start space-x-2">
+                <Icon
+                  name="HelpCircle"
+                  size={16}
+                  className="flex-shrink-0 mt-1"
+                  color="var(--color-muted-foreground)"
+                />
+                <span className="flex-1 min-w-0">{question}</span>
               </div>
             </button>
           ))}

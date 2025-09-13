@@ -17,7 +17,7 @@ export default function Login() {
     setError("");
     // You can add email/password auth here if needed
     localStorage.setItem('auth', 'true');
-    window.location.href = "/";
+    window.location.href = "/aptitude-quiz-interface";
   };
 
   // Google login
@@ -38,7 +38,7 @@ export default function Login() {
           photo: user.photoURL || '',
         }, { merge: true });
       }
-      window.location.href = "/";
+      window.location.href = "/aptitude-quiz-interface";
     } catch (err) {
       setError("Google login failed. Please try again.");
     }
