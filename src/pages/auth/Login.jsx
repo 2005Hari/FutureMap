@@ -65,12 +65,17 @@ export default function Login() {
       <div className="flex w-full max-w-5xl rounded-2xl bg-white shadow-lg overflow-hidden">
         {/* Left Side Illustration */}
         <div className="hidden w-1/2 bg-white/80 backdrop-blur-xl p-10 text-primary lg:flex flex-col justify-center shadow-2xl rounded-l-2xl">
-          <img
-            src="https://cdn3d.iconscout.com/3d/premium/thumb/graduates-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--student-graduation-hat-people-pack-illustrations-3617262.png"
-            alt="Career Journey"
-            className="mb-6 drop-shadow-2xl rounded-2xl"
-          />
-          <h2 className="text-3xl font-extrabold mb-4 text-primary">Your Career Journey Starts Here</h2>
+          <div className="flex items-center mb-6">
+            <img
+              src="/assets/images/logo.jpg"
+              alt="Career Journey Logo"
+              className="w-16 h-16 rounded-full mr-4 border-2 border-primary shadow object-cover"
+            />
+            <h2 className="text-3xl font-extrabold text-primary">Your Career Journey Starts Here</h2>
+          </div>
+          <blockquote className="italic text-lg text-blue-900 mb-4 border-l-4 border-blue-400 pl-4">
+            "Empowering you to discover, plan, and achieve your dream career—one step at a time."
+          </blockquote>
           <p className="text-lg opacity-90 text-foreground">
             Discover your potential, explore career paths, and get personalized
             guidance to achieve your professional goals.
