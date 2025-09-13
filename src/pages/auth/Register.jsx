@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { auth, db, doc, setDoc } from "../../utils/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+// import { auth, db, doc, setDoc } from "../../utils/firebase";
+// import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -20,23 +20,24 @@ export default function Register() {
     }
     setError("");
     try {
-      const result = await createUserWithEmailAndPassword(auth, email, password);
-      // Set display name to email prefix (before @)
-      const name = email.split('@')[0];
-      await updateProfile(result.user, { displayName: name });
+      // Use email prefix as name
+      const name = email.split('@')[0].replace(/\d+/g, '').replace(/\./g, ' ').replace(/_/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\s+/g, ' ').trim();
+      const response = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || "Registration failed.");
+        return;
+      }
       localStorage.setItem('auth', 'true');
-      localStorage.setItem('userName', name);
-      localStorage.setItem('userPhoto', '');
-      // Store user in Firestore
-      await setDoc(doc(db, "users", result.user.uid), {
-        uid: result.user.uid,
-        name: name,
-        email: email,
-        photo: '',
-      }, { merge: true });
+      localStorage.setItem('userName', data.user.name);
+      localStorage.setItem('userEmail', data.user.email);
       window.location.href = "/aptitude-quiz-interface";
     } catch (err) {
-      setError("Registration failed. " + (err.message || ''));
+      setError("Registration failed. Please try again.");
     }
   };
 

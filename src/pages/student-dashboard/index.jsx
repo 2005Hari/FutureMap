@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth, db, doc, getDoc } from '../../utils/firebase';
+// import { auth, db, doc, getDoc } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/ui/Header';
 import QuickActionPanel from '../../components/ui/QuickActionPanel';
@@ -17,7 +17,7 @@ import Button from '../../components/ui/Button';
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const [studentData, setStudentData] = useState({
-    name: localStorage.getItem('userName') || "Alex Johnson",
+    name: localStorage.getItem('userName') || "User",
     currentXP: 1250,
     level: 5,
     hasCompletedQuiz: true,
@@ -80,18 +80,24 @@ const StudentDashboard = () => {
   };
 
   useEffect(() => {
-    // Fetch user data from Firestore if logged in
+    // Fetch user data from MongoDB backend if logged in
     const fetchUserData = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          setStudentData(prev => ({
-            ...prev,
-            name: data.name || prev.name,
-            avatarUrl: data.photo || prev.avatarUrl,
-          }));
+      const email = localStorage.getItem('userEmail');
+      if (email) {
+        try {
+          const response = await fetch(`http://localhost:5000/api/user/${encodeURIComponent(email)}`);
+          if (response.ok) {
+            const data = await response.json();
+            setStudentData(prev => ({
+              ...prev,
+              name: (data.name && data.name.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/_/g, ' ').replace(/\s+/g, ' ').trim()) || prev.name,
+              avatarUrl: data.avatarUrl || prev.avatarUrl,
+              currentXP: data.xp || prev.currentXP,
+              level: data.level || prev.level
+            }));
+          }
+        } catch (err) {
+          // Optionally handle error
         }
       }
     };

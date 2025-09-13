@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { auth, googleProvider, signInWithPopup, db, doc, setDoc } from "../../utils/firebase";
+// import { auth, googleProvider, signInWithPopup, db, doc, setDoc } from "../../utils/firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -8,16 +8,31 @@ export default function Login() {
   const [error, setError] = useState("");
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError("Please enter both email and password.");
       return;
     }
     setError("");
-    // You can add email/password auth here if needed
-    localStorage.setItem('auth', 'true');
-    window.location.href = "/aptitude-quiz-interface";
+    try {
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || "Login failed.");
+        return;
+      }
+      localStorage.setItem('auth', 'true');
+      localStorage.setItem('userName', data.user.name);
+      localStorage.setItem('userEmail', data.user.email);
+      window.location.href = "/aptitude-quiz-interface";
+    } catch (err) {
+      setError("Login failed. Please try again.");
+    }
   };
 
   // Google login
