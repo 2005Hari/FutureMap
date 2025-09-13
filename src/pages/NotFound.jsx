@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from 'components/ui/Button';
-import Icon from 'components/AppIcon';
+import Button from '../components/ui/Button';
+import Icon from '../components/AppIcon';
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const NotFound = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
       <div className="text-center max-w-md">
         <div className="flex justify-center mb-6">
-          <div className="relative">
+          <div className="relative overflow-hidden">
             <h1 className="text-9xl font-bold text-primary opacity-20">404</h1>
           </div>
         </div>
