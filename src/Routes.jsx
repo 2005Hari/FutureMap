@@ -12,24 +12,36 @@ import CareerPathwayExplorer from './pages/career-pathway-explorer';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 
+
+// Simple authentication check (for demo: checks localStorage for 'auth')
+function RequireAuth({ children }) {
+  const isAuthenticated = !!localStorage.getItem('auth');
+  if (!isAuthenticated) {
+    window.location.href = '/login';
+    return null;
+  }
+  return children;
+}
+
 const Routes = () => {
   return (
     <BrowserRouter>
       <ErrorBoundary>
-      <ScrollToTop />
-      <RouterRoutes>
-        {/* Define your route here */}
-        <Route path="/" element={<AiCareerChatbot />} />
-        <Route path="/aptitude-quiz-interface" element={<AptitudeQuizInterface />} />
-        <Route path="/ai-career-chatbot" element={<AiCareerChatbot />} />
-        <Route path="/stream-recommendations" element={<StreamRecommendations />} />
-        <Route path="/student-dashboard" element={<StudentDashboard />} />
-        <Route path="/course-program-explorer" element={<CourseProgramExplorer />} />
-        <Route path="/career-pathway-explorer" element={<CareerPathwayExplorer />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="*" element={<NotFound />} />
-      </RouterRoutes>
+        <ScrollToTop />
+        <RouterRoutes>
+          {/* Public routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* Protected routes */}
+          <Route path="/" element={<RequireAuth><StudentDashboard /></RequireAuth>} />
+          <Route path="/student-dashboard" element={<RequireAuth><StudentDashboard /></RequireAuth>} />
+          <Route path="/aptitude-quiz-interface" element={<RequireAuth><AptitudeQuizInterface /></RequireAuth>} />
+          <Route path="/ai-career-chatbot" element={<RequireAuth><AiCareerChatbot /></RequireAuth>} />
+          <Route path="/stream-recommendations" element={<RequireAuth><StreamRecommendations /></RequireAuth>} />
+          <Route path="/course-program-explorer" element={<RequireAuth><CourseProgramExplorer /></RequireAuth>} />
+          <Route path="/career-pathway-explorer" element={<RequireAuth><CareerPathwayExplorer /></RequireAuth>} />
+          <Route path="*" element={<NotFound />} />
+        </RouterRoutes>
       </ErrorBoundary>
     </BrowserRouter>
   );

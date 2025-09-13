@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { auth, db, doc, setDoc } from "../../utils/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -6,7 +8,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password || !confirmPassword) {
       setError("Please fill in all fields.");
@@ -17,7 +19,25 @@ export default function Register() {
       return;
     }
     setError("");
-    alert("Registered (stub)");
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      // Set display name to email prefix (before @)
+      const name = email.split('@')[0];
+      await updateProfile(result.user, { displayName: name });
+      localStorage.setItem('auth', 'true');
+      localStorage.setItem('userName', name);
+      localStorage.setItem('userPhoto', '');
+      // Store user in Firestore
+      await setDoc(doc(db, "users", result.user.uid), {
+        uid: result.user.uid,
+        name: name,
+        email: email,
+        photo: '',
+      }, { merge: true });
+      window.location.href = "/";
+    } catch (err) {
+      setError("Registration failed. " + (err.message || ''));
+    }
   };
 
   return (

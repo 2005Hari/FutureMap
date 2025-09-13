@@ -209,7 +209,7 @@ const PathwayVisualization = ({
               {isFlexible && (
                 <text
                   x={(sourceNode?.x + targetNode?.x) / 2}
-                  y={(sourceNode?.y + targetNode?.y) / 2 - 5}
+                  y={Math.max(sourceNode?.y, targetNode?.y) + 25}
                   textAnchor="middle"
                   fontSize="10"
                   fill="var(--color-warning)"

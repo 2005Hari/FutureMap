@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { auth, db, doc, getDoc } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/ui/Header';
 import QuickActionPanel from '../../components/ui/QuickActionPanel';
@@ -16,14 +17,14 @@ import Button from '../../components/ui/Button';
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const [studentData, setStudentData] = useState({
-    name: "Alex Johnson",
+    name: localStorage.getItem('userName') || "Alex Johnson",
     currentXP: 1250,
     level: 5,
     hasCompletedQuiz: true,
     hasRecommendations: true,
     completionPercentage: 75,
     currentStreak: 5,
-    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+    avatarUrl: localStorage.getItem('userPhoto') || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
   });
 
   const [dashboardStats, setDashboardStats] = useState({
@@ -79,13 +80,22 @@ const StudentDashboard = () => {
   };
 
   useEffect(() => {
-    // Simulate loading user data
-    const loadUserData = () => {
-      // In a real app, this would fetch from an API
-      console.log('Loading user dashboard data...');
+    // Fetch user data from Firestore if logged in
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          setStudentData(prev => ({
+            ...prev,
+            name: data.name || prev.name,
+            avatarUrl: data.photo || prev.avatarUrl,
+          }));
+        }
+      }
     };
-
-    loadUserData();
+    fetchUserData();
   }, []);
 
   return (

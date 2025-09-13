@@ -13,6 +13,11 @@ const WelcomeHeader = ({
   const progressToNext = ((currentXP % 300) / 300) * 100;
   const timeOfDay = new Date()?.getHours() < 12 ? 'morning' : new Date()?.getHours() < 17 ? 'afternoon' : 'evening';
 
+  const handleLogout = () => {
+    localStorage.removeItem('auth');
+    window.location.href = '/login';
+  };
+
   return (
     <div className={`bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 rounded-xl p-6 border border-primary/20 ${className}`}>
       <div className="flex items-center justify-between">
@@ -65,6 +70,14 @@ const WelcomeHeader = ({
               {nextMilestone - currentXP} XP to Level {level + 1}
             </p>
           </div>
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="ml-8 px-4 py-2 rounded-lg bg-error text-white font-semibold shadow hover:bg-error-foreground transition"
+            title="Logout"
+          >
+            Logout
+          </button>
         </div>
       </div>
       {/* Mobile XP Display */}
@@ -82,6 +95,14 @@ const WelcomeHeader = ({
           </div>
         </div>
         <span className="text-sm text-muted-foreground">Level {level}</span>
+        {/* Mobile Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="ml-4 px-3 py-1 rounded-lg bg-error text-white font-semibold shadow hover:bg-error-foreground transition text-xs"
+          title="Logout"
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
