@@ -93,8 +93,8 @@ const CareerPathwayExplorer = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-16">
-        <div className="w-full px-8 py-6">
+      <main className="pt-16 overflow-x-hidden">
+        <div className="w-full px-4 md:px-6 lg:px-8 py-6 max-w-[1920px] mx-auto">
           {/* Breadcrumb */}
           <Breadcrumb className="mb-6" />
 

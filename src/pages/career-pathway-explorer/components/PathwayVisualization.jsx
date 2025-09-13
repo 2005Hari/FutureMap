@@ -176,7 +176,6 @@ const PathwayVisualization = ({
         viewBox={`${-panPosition?.x} ${-panPosition?.y} ${800 / zoomLevel} ${600 / zoomLevel}`}
         className="cursor-move"
       >
-        {/* Grid Background */}
         <defs>
           <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
             <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--color-border)" strokeWidth="0.5" opacity="0.3"/>
@@ -184,80 +183,112 @@ const PathwayVisualization = ({
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" />
 
-        {/* Links */}
-        {filteredData?.links?.map((link, index) => {
-          const sourceNode = filteredData?.nodes?.find(n => n?.id === link?.source);
-          const targetNode = filteredData?.nodes?.find(n => n?.id === link?.target);
-          
-          if (!sourceNode || !targetNode) return null;
+        {/* Bottom Layer: Links */}
+        <g className="links-layer">
+          {filteredData?.links?.map((link, index) => {
+            const sourceNode = filteredData?.nodes?.find(n => n?.id === link?.source);
+            const targetNode = filteredData?.nodes?.find(n => n?.id === link?.target);
+            
+            if (!sourceNode || !targetNode) return null;
 
-          const isFlexible = link?.flexible;
-          
-          return (
-            <g key={index}>
-              <line
-                x1={sourceNode?.x}
-                y1={sourceNode?.y}
-                x2={targetNode?.x}
-                y2={targetNode?.y}
-                stroke={isFlexible ? 'var(--color-warning)' : 'var(--color-border)'}
-                strokeWidth={isFlexible ? 3 : 2}
-                strokeDasharray={isFlexible ? '5,5' : 'none'}
-                opacity={0.7}
-                className="transition-all duration-200 hover:opacity-100"
-              />
-              {isFlexible && (
+            const isFlexible = link?.flexible;
+            
+            return (
+              <g key={index}>
+                <line
+                  x1={sourceNode?.x}
+                  y1={sourceNode?.y}
+                  x2={targetNode?.x}
+                  y2={targetNode?.y}
+                  stroke={isFlexible ? 'var(--color-warning)' : 'var(--color-border)'}
+                  strokeWidth={isFlexible ? 3 : 2}
+                  strokeDasharray={isFlexible ? '5,5' : 'none'}
+                  opacity={0.7}
+                />
+              </g>
+            );
+          })}
+        </g>
+
+        {/* Middle Layer: Link Labels */}
+        <g className="link-labels-layer">
+          {filteredData?.links?.map((link, index) => {
+            const sourceNode = filteredData?.nodes?.find(n => n?.id === link?.source);
+            const targetNode = filteredData?.nodes?.find(n => n?.id === link?.target);
+            
+            if (!sourceNode || !targetNode || !link?.flexible) return null;
+
+            const midX = (sourceNode?.x + targetNode?.x) / 2;
+            const midY = (sourceNode?.y + targetNode?.y) / 2;
+            
+            return (
+              <g key={`label-${index}`}>
+                <rect
+                  x={midX - 35}
+                  y={midY - 15}
+                  width={70}
+                  height={20}
+                  fill="white"
+                  rx={4}
+                  className="drop-shadow-sm"
+                />
                 <text
                   x={(sourceNode?.x + targetNode?.x) / 2}
-                  y={Math.max(sourceNode?.y, targetNode?.y) + 25}
+                  y={(sourceNode?.y + targetNode?.y) / 2 - 5}
                   textAnchor="middle"
                   fontSize="10"
                   fill="var(--color-warning)"
-                  className="font-medium"
+                  className="font-medium pointer-events-none"
                 >
                   NEP 2020
                 </text>
-              )}
-            </g>
-          );
-        })}
+              </g>
+            );
+          })}
+        </g>
 
-        {/* Nodes */}
+        {/* Nodes and circles */}
         {filteredData?.nodes?.map((node) => {
           const isSelected = selectedPathway?.id === node?.id;
           const nodeColor = getCategoryColor(node?.category);
+          const labelYOffset = 45;
           
           return (
             <g 
               key={node?.id} 
-              className="cursor-pointer transition-all duration-200 hover:scale-110"
+              className="cursor-pointer group"
               onClick={() => onNodeClick(node)}
-            >
+              style={{ transform: `translate(${node?.x}px, ${node?.y}px)` }}
+              >
+              {/* Circle underneath */}
               <circle
-                cx={node?.x}
-                cy={node?.y}
+                cx={0}
+                cy={0}
                 r={isSelected ? 25 : 20}
                 fill={nodeColor}
                 stroke={isSelected ? 'var(--color-ring)' : 'white'}
                 strokeWidth={isSelected ? 3 : 2}
-                className="drop-shadow-sm"
+                className="drop-shadow-sm transition-transform duration-200 ease-out group-hover:scale-110"
               />
+              {/* Node text on top */}
               <text
-                x={node?.x}
-                y={node?.y + 35}
+                x={0}
+                y={labelYOffset}
                 textAnchor="middle"
+                dominantBaseline="middle"
                 fontSize="12"
                 fill="var(--color-foreground)"
-                className="font-medium pointer-events-none"
+                className="font-medium pointer-events-none select-none transition-opacity duration-200 ease-out group-hover:opacity-90"
               >
                 {node?.name}
               </text>
             </g>
           );
         })}
-      </svg>
 
-      {/* Zoom Controls */}
+      </svg>
+      
+      {/* Zoom Controls */}      {/* Zoom Controls */}
       <div className="absolute top-4 right-4 flex flex-col space-y-2">
         <Button
           variant="outline"
@@ -315,6 +346,6 @@ const PathwayVisualization = ({
       {renderFlowchartView()}
     </div>
   );
-};
+};   
 
 export default PathwayVisualization;
